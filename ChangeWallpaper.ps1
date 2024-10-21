@@ -1,6 +1,34 @@
-# Define the folder containing the wallpapers
-# Set-Location -Path C:\Users\adi\projecty
-# $wallpaperFolder = "C:\Users\adi\projecty"
+# Define the current version number
+$versionNumber = 2
+
+# Define the URLs for version checking and script update
+$versionUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/latestVersion.txt"
+$scriptUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/ChangeWallpaper.ps1"
+$localScriptPath = $MyInvocation.MyCommand.Definition
+
+# Check for the latest version
+try {
+    $latestVersion = Invoke-RestMethod -Uri $versionUrl
+    Write-Output "Latest version available: $latestVersion"
+    
+    # Compare versions and update if necessary
+    if ([int]$latestVersion -gt $versionNumber) {
+        Write-Output "A newer version is available. Updating the script..."
+        
+        # Download the updated script
+        Invoke-WebRequest -Uri $scriptUrl -OutFile $localScriptPath -UseBasicParsing
+        
+        Write-Output "Script updated. Restarting..."
+        
+        # Rerun the updated script
+        & $localScriptPath
+        exit
+    } else {
+        Write-Output "The script is up to date."
+    }
+} catch {
+    Write-Output "Failed to check for the latest version: $_"
+}
 
 # Get the path of the script and cd to the folder containing the wallpapers
 $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Definition
