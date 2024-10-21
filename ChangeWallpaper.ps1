@@ -1,9 +1,12 @@
 # Define the current version number
-$versionNumber = 2
+$versionNumber = 3
 
-# Define the URLs for version checking and script update
-$versionUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/latestVersion.txt"
-$scriptUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/ChangeWallpaper.ps1"
+# Get the current timestamp
+$timestamp = [int][double]::Parse((Get-Date -UFormat %s))
+
+# Define the URLs for version checking and script update with the timestamp as a parameter
+$versionUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/latestVersion.txt?timestamp=$timestamp"
+$scriptUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/ChangeWallpaper.ps1?timestamp=$timestamp"
 $localScriptPath = $MyInvocation.MyCommand.Definition
 
 # Check for the latest version
