@@ -1,5 +1,5 @@
 # Define the current version number
-$versionNumber = 3
+$versionNumber = 4
 
 # Get the current timestamp
 $timestamp = [int][double]::Parse((Get-Date -UFormat %s))
@@ -43,8 +43,6 @@ $lastWallpaperPath = "$wallpaperFolder\lastWallpaper.txt"
 
 # List all the files in the folder
 $Files = Get-ChildItem -Path $wallpaperFolder
-Write-Output "Files in the folder: $($Files.Name)"
-
 # Get all image files from the folder
 $wallpapers = Get-ChildItem -Path $wallpaperFolder -Filter "*.jpg" -File
 $wallpapers += Get-ChildItem -Path $wallpaperFolder -Filter "*.jpeg" -File
@@ -53,7 +51,7 @@ $wallpapers += Get-ChildItem -Path $wallpaperFolder -Filter "*.bmp" -File
 
 # Exit if no wallpapers found
 if ($wallpapers.Count -eq 0) {
-    Write-Output "No wallpaper images found in the specified folder."
+    Write-Output "ERR_NO_FILES_FOUND"
     exit 1
 }
 
@@ -87,4 +85,4 @@ $UPDATE_INI_FILE = 0x01
 $SEND_CHANGE = 0x02
 [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $randomWallpaper.FullName, $UPDATE_INI_FILE -bor $SEND_CHANGE)
 
-Write-Output "Wallpaper changed to: $($randomWallpaper.FullName)"
+Write-Output "OK_CODE_SUCCESS"
