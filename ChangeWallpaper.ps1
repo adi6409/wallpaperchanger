@@ -1,5 +1,5 @@
 # Define the current version number
-$versionNumber = 7
+$versionNumber = 8
 
 # Get the current timestamp
 $timestamp = [int][double]::Parse((Get-Date -UFormat %s))
@@ -9,9 +9,16 @@ $versionUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/h
 $scriptUrl = "https://raw.githubusercontent.com/adi6409/wallpaperchanger/refs/heads/main/ChangeWallpaper.ps1?timestamp=$timestamp"
 $localScriptPath = $MyInvocation.MyCommand.Definition
 
-# Define your Telegram bot token and chat ID
-$botToken = "8179166746:AAFMzP_vjE-M2F8D66Rn7076rALUmRqHk48"
-$chatId = "-1002394088308"
+# Read Telegram bot token and chat ID from the configuration file
+$telegramConfigPath = "$PSScriptRoot\telegram_config.txt"
+if (Test-Path $telegramConfigPath) {
+    $config = Get-Content -Path $telegramConfigPath
+    $botToken = $config[0].Trim()
+    $chatId = $config[1].Trim()
+} else {
+    Write-Host "Telegram configuration file not found: $telegramConfigPath"
+    exit 1
+}
 
 # Function to send a message to Telegram
 function Send-TelegramMessage {
