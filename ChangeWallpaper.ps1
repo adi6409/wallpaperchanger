@@ -1,5 +1,5 @@
 # Define the current version number
-$versionNumber = 6
+$versionNumber = 7
 
 # Get the current timestamp
 $timestamp = [int][double]::Parse((Get-Date -UFormat %s))
