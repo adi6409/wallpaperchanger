@@ -1,5 +1,5 @@
 # Define the current version number
-$versionNumber = 8
+$versionNumber = 9
 
 # Get the current timestamp
 $timestamp = [int][double]::Parse((Get-Date -UFormat %s))
@@ -104,20 +104,20 @@ $randomWallpaper = $wallpapers | Get-Random
 # Save the selected wallpaper as the last used wallpaper
 Set-Content -Path $lastWallpaperPath -Value $randomWallpaper.FullName
 
-# Set the wallpaper
-Add-Type -TypeDefinition @"
-    using System;
-    using System.Runtime.InteropServices;
-    public class Wallpaper {
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
-    }
-"@
+# # Set the wallpaper
+# Add-Type -TypeDefinition @"
+#     using System;
+#     using System.Runtime.InteropServices;
+#     public class Wallpaper {
+#         [DllImport("user32.dll", CharSet = CharSet.Auto)]
+#         public static extern int SystemParametersInfo(int uAction, int uParam, string lpvParam, int fuWinIni);
+#     }
+# "@
 
 # Set the wallpaper using the SystemParametersInfo function
-$SPI_SETDESKWALLPAPER = 0x0014
-$UPDATE_INI_FILE = 0x01
-$SEND_CHANGE = 0x02
-[Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $randomWallpaper.FullName, $UPDATE_INI_FILE -bor $SEND_CHANGE)
+#$SPI_SETDESKWALLPAPER = 0x0014
+#$UPDATE_INI_FILE = 0x01
+#$SEND_CHANGE = 0x02
+# [Wallpaper]::SystemParametersInfo($SPI_SETDESKWALLPAPER, 0, $randomWallpaper.FullName, $UPDATE_INI_FILE -bor $SEND_CHANGE)
 
 Send-TelegramMessage "OK_CODE_SUCCESS $randomWallpaper"
